@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Menu</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #3498db;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            cursor: grab;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: scale(1.05);
+        }
+
+        .item-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            margin-right: 10px;
+            border-radius: 8px;
+        }
+
+        .quantity {
+            width: 30px;
+            text-align: center;
+            margin-right: 10px;
+        }
+
+        #bill {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: left;
+        }
+
+        #confirmOrderBtn {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        #confirmOrderBtn:hover {
+            background-color: #2c81ba;
+        }
+    </style>
+</head>
+<body>
+    <h1>Restaurant Menu</h1>
+
+    <div class="menu-item" draggable="true" ondragstart="drag(event)" data-itemname="Burger" data-itemprice="8.99">
+        <img class="item-image" src="burger.jpg" alt="Burger">
+        <span>Burger</span>
+        <span>$8.99</span>
+    </div>
+
+    <div class="menu-item" draggable="true" ondragstart="drag(event)" data-itemname="Pasta" data-itemprice="12.99">
+        <img class="item-image" src="pasta.jpg" alt="Pasta">
+        <span>Pasta</span>
+        <span>$12.99</span>
+    </div>
+
+    <!-- Add more menu items as needed -->
+
+    <div id="bill" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+    <button id="confirmOrderBtn" onclick="confirmOrder()">Confirm Order</button>
+
+    <script>
+        const orderItems = {};
+
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function drag(event) {
+            const item = event.target;
+            const itemName = item.getAttribute('data-itemname');
+            const itemPrice = parseFloat(item.getAttribute('data-itemprice'));
+
+            if (!orderItems[itemName]) {
+                orderItems[itemName] = { quantity: 1, price: itemPrice };
+            } else {
+                orderItems[itemName].quantity++;
+            }
+
+            updateBill();
+        }
+
+        function drop(event) {
+            event.preventDefault();
+
+            const data = event.dataTransfer.getData('text');
+            const draggedItem = document.getElementById(data);
+
+            // Simulate a click event on the dragged item
+            const clickEvent = new Event('click');
+            draggedItem.dispatchEvent(clickEvent);
+        }
+
+        function updateBill() {
+            const billContainer = document.getElementById('bill');
+            billContainer.innerHTML = '<h2>Bill</h2>';
+
+            let totalAmount = 0;
+
+            for (const itemName in orderItems) {
+                if (orderItems.hasOwnProperty(itemName)) {
+                    const item = orderItems[itemName];
+                    const totalPrice = item.quantity * item.price;
+
+                    totalAmount += totalPrice;
+
+                    billContainer.innerHTML += `<div class="menu-item" draggable="true" ondragstart="drag(event)"
+                        data-itemname="${itemName}" data-itemprice="${item.price}">
+                        <span>${itemName}</span>
+                        <span class="quantity">${item.quantity}</span>
+                        <span>$${totalPrice.toFixed(2)}</span>
+                    </div>`;
+                }
+            }
+
+            billContainer.innerHTML += `<div>Total: $${totalAmount.toFixed(2)}</div>`;
+        }
+
+        function confirmOrder() {
+            // Redirect to the Thank You page after confirming the order
+            window.location.href = 'thankyou.html';
+        }
+    </script>
+</body>
+</html>

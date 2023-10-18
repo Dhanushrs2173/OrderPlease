@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You for Ordering</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        h1 {
+            color: #3498db;
+        }
+
+        #animationContainer {
+            margin-top: 20px;
+            position: relative;
+            width: 150px;
+            height: 150px;
+        }
+
+        #animationCircle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: #3498db;
+            animation: scaleAnimation 1.5s ease-in-out infinite;
+        }
+
+        @keyframes scaleAnimation {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        p {
+            margin-top: 20px;
+            color: #555;
+        }
+
+        #homeLink {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #3498db;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Thank You for Ordering!</h1>
+
+    <div id="animationContainer">
+        <div id="animationCircle"></div>
+    </div>
+
+    <p>Your order will be served soon.</p>
+
+    <a href="index.html" id="homeLink">Back to Home</a>
+</body>
+</html>
